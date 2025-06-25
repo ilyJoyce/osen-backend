@@ -4,8 +4,12 @@ use axum::{
 use tower_http::services::{ServeDir, ServeFile};
 use std::net::SocketAddr;
 
+
 #[tokio::main]
 async fn main() {
+    println!("Willkommen im OSEN Backend!");
+    println!("Starte den Server - tokio::main");
+
     let static_service = ServeDir::new("..")
         .not_found_service(ServeFile::new("../index.html"));
 
