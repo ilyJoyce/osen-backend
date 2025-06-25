@@ -7,7 +7,6 @@ use std::net::SocketAddr;
 
 #[tokio::main]
 async fn main() {
-    // ServeDir für statische Dateien aus "assets"
     let static_service = ServeDir::new("..")
         .not_found_service(ServeFile::new("../index.html"));
 
