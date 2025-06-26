@@ -18,7 +18,7 @@ async fn log_middleware(
 
     println!("Datei: \"{}\" an IP: \"{}\" gesendet.", path, ip);
 
-    let log_line = format!("Datei: \"{}\" an IP: \"{}\" gesendet.\n", path, ip);
+    let log_line = format!("\"{}\" --> \"{}\"\n", path, ip);
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
