@@ -22,7 +22,7 @@ async fn log_middleware(
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
-        .open("access_log.txt")
+        .open("serve.log")
         .unwrap();
     file.write_all(log_line.as_bytes()).unwrap();
 
