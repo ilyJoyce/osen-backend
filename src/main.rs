@@ -3,8 +3,8 @@ use axum::{
     middleware,
 };
 use tower_http::services::{ServeDir, ServeFile};
-use std::{net::SocketAddr, sync::Arc};
-use tokio::sync::Mutex;
+use std::net::SocketAddr;
+use tokio;
 use std::fs::OpenOptions;
 use std::io::Write;
 
@@ -16,9 +16,9 @@ async fn log_middleware(
     let path = req.uri().path().to_string();
     let ip = addr.ip().to_string();
 
-    println!("Served file: {} to IP: {}", path, ip);
+    println!("Datei: {} an IP: {} gesendet.", path, ip);
 
-    let log_line = format!("Served file: {} to IP: {}\n", path, ip);
+    let log_line = format!("Datei: {} an IP: {} gesendet.\n", path, ip);
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
@@ -32,7 +32,7 @@ async fn log_middleware(
 #[tokio::main]
 async fn main() {
     println!("Willkommen im OSEN Backend!");
-    println!("Starte den Server - tokio::main");
+    println!("Server wird gestartet - tokio::main");
 
     let static_service = ServeDir::new("..")
         .not_found_service(ServeFile::new("../index.html"));
