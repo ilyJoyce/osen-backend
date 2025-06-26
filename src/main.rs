@@ -16,9 +16,9 @@ async fn log_middleware(
     let path = req.uri().path().to_string();
     let ip = addr.ip().to_string();
 
-    println!("Datei: {} an IP: {} gesendet.", path, ip);
+    println!("Datei: \"{}\" an IP: \"{}\" gesendet.", path, ip);
 
-    let log_line = format!("Datei: {} an IP: {} gesendet.\n", path, ip);
+    let log_line = format!("Datei: \"{}\" an IP: \"{}\" gesendet.\n", path, ip);
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
