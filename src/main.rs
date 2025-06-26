@@ -8,8 +8,6 @@ use tokio::sync::Mutex;
 use std::fs::OpenOptions;
 use std::io::Write;
 
-type SharedLog = Arc<Mutex<()>>;
-
 async fn log_middleware(
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
     req: Request<Body>,
