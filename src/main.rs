@@ -7,6 +7,7 @@ use std::net::SocketAddr;
 use tokio;
 use std::fs::OpenOptions;
 use std::io::Write;
+use axum::http::header::USER_AGENT;
 
 async fn log_middleware(
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
@@ -16,9 +17,37 @@ async fn log_middleware(
     let path = req.uri().path().to_string();
     let ip = addr.ip().to_string();
 
-    println!("Datei: \"{}\" an IP: \"{}\" gesendet.", path, ip);
+    // Extract User-Agent header
+    let user_agent = req
+        .headers()
+        .get(USER_AGENT)
+        .and_then(|ua| ua.to_str().ok())
+        .unwrap_or("Unknown");
 
-    let log_line = format!("\"{}\" --> \"{}\"\n", path, ip);
+    // Simple device type detection
+    let device_type = if user_agent.contains("iPhone") || user_agent.contains("iPad") {
+        "iOS"
+    } else if user_agent.contains("Android") {
+        "Android"
+    } else if user_agent.contains("Windows") {
+        "Windows"
+    } else if user_agent.contains("Macintosh") {
+        "Mac"
+    } else if user_agent.contains("Linux") {
+        "Linux"
+    } else {
+        "Other"
+    };
+
+    println!(
+        "Datei: \"{}\" an IP: \"{}\" gesendet. Gerät: \"{}\" (User-Agent: \"{}\")",
+        path, ip, device_type, user_agent
+    );
+
+    let log_line = format!(
+        "\"{}\" --> \"{}\" | Device: \"{}\" | User-Agent: \"{}\"\n",
+        path, ip, device_type, user_agent
+    );
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
