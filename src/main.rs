@@ -73,7 +73,7 @@ async fn main() {
         .layer(middleware::from_fn_with_state((), log_middleware))
         .with_state(());
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 6464));
+    let _addr = SocketAddr::from(([127, 0, 0, 1], 6464));
 
     let mut port = 6464;
 
