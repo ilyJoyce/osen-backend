@@ -8,6 +8,7 @@ use tokio;
 use std::fs::OpenOptions;
 use std::io::Write;
 use axum::http::header::USER_AGENT;
+use std::env;
 
 async fn log_middleware(
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
@@ -45,7 +46,7 @@ async fn log_middleware(
     println!("-----------------------------------------------------");
 
     let log_line = format!(
-        "\"{}\" --> \"{}\" | Device: \"{}\" | User-Agent: \"{}\"\n",
+        "\"{}\" --> \"{}\" || Device: \"{}\" || User-Agent: \"{}\"\n",
         path, ip, device_type, user_agent
     );
     let mut file = OpenOptions::new()
@@ -73,10 +74,31 @@ async fn main() {
         .with_state(());
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 6464));
+
+    let mut port = 6464;
+
+    let args: Vec<String> = env::args().collect();
+    let mut i = 1;
+    while i < args.len() {
+        if args[i] == "--port" {
+            if i + 1 < args.len() {
+                if let Ok(p) = args[i + 1].parse::<u16>() {
+                    port = p;
+                } else {
+                    eprintln!("Ungültiger Port: {}", args[i + 1]);
+                    std::process::exit(1);
+                }
+                i += 1;
+            }
+        }
+        i += 1;
+    }
+
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
     println!("Server gestartet auf http://{}", addr);
     println!("-----------------------------------------------------");
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:6464").await.unwrap();
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     axum::serve(
         listener,
         app.into_make_service_with_connect_info::<SocketAddr>(),
