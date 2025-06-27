@@ -1,5 +1,10 @@
 use axum::{
-    Router, extract::ConnectInfo, http::Request, body::Body, middleware::Next, response::Response, 
+    Router, 
+    extract::ConnectInfo, 
+    http::Request, 
+    body::Body, 
+    middleware::Next, 
+    response::Response, 
     middleware,
 };
 use tower_http::services::{ServeDir, ServeFile};
@@ -9,6 +14,7 @@ use std::fs::OpenOptions;
 use std::io::Write;
 use axum::http::header::USER_AGENT;
 use std::env;
+use chrono::Local;
 
 async fn log_middleware(
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
@@ -38,16 +44,19 @@ async fn log_middleware(
         "Other"
     };
 
+    let now = Local::now();
+    let datetime = now.format("%Y-%m-%d %H:%M:%S").to_string();
+
     println!("-----------------------------------------------------");
     println!(
-        "Datei: \"{}\" an IP: \"{}\" gesendet. Gerät: \"{}\" (User-Agent: \"{}\")",
-        path, ip, device_type, user_agent
+        "[{}] Datei: \"{}\" an IP: \"{}\" gesendet. Gerät: \"{}\" (User-Agent: \"{}\")",
+        datetime, path, ip, device_type, user_agent
     );
     println!("-----------------------------------------------------");
 
     let log_line = format!(
-        "\"{}\" --> \"{}\" || Device: \"{}\" || User-Agent: \"{}\"\n",
-        path, ip, device_type, user_agent
+        "[{}] || \"{}\" --> \"{}\" || Device: \"{}\" || User-Agent: \"{}\"\n",
+        datetime, path, ip, device_type, user_agent
     );
     let mut file = OpenOptions::new()
         .create(true)
