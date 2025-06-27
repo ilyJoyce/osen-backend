@@ -37,10 +37,12 @@ async fn log_middleware(
         "Other"
     };
 
+    println!("-----------------------------------------------------");
     println!(
         "Datei: \"{}\" an IP: \"{}\" gesendet. Gerät: \"{}\" (User-Agent: \"{}\")",
         path, ip, device_type, user_agent
     );
+    println!("-----------------------------------------------------");
 
     let log_line = format!(
         "\"{}\" --> \"{}\" | Device: \"{}\" | User-Agent: \"{}\"\n",
@@ -60,6 +62,7 @@ async fn log_middleware(
 async fn main() {
     println!("Willkommen im OSEN Backend!");
     println!("Server wird gestartet - tokio::main");
+    println!("-----------------------------------------------------");
 
     let static_service = ServeDir::new("..")
         .not_found_service(ServeFile::new("../index.html"));
@@ -71,6 +74,7 @@ async fn main() {
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 6464));
     println!("Server gestartet auf http://{}", addr);
+    println!("-----------------------------------------------------");
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:6464").await.unwrap();
     axum::serve(
