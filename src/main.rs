@@ -17,14 +17,12 @@ async fn log_middleware(
     let path = req.uri().path().to_string();
     let ip = addr.ip().to_string();
 
-    // Extract User-Agent header
     let user_agent = req
         .headers()
         .get(USER_AGENT)
         .and_then(|ua| ua.to_str().ok())
         .unwrap_or("Unknown");
 
-    // Simple device type detection
     let device_type = if user_agent.contains("iPhone") || user_agent.contains("iPad") {
         "iOS"
     } else if user_agent.contains("Android") {
