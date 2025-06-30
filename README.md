@@ -24,9 +24,9 @@ Altough we are considering adding let's encrypt support directly in the backend
 This is something for the future tho
 
 For help with setting up a reverse proxy like Nginx,  
-refer to the [its wiki](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
+refer to the [its wiki](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)  
 
-### NOTE!
+## NOTE!
 
 You need to move this backends folder into the index directory of your own webpage,  
 or edit the code to use your own path,  
