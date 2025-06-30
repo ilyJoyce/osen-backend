@@ -15,7 +15,16 @@ date, time, user IP, device OS and User-Agent (eg. Browser).
 - Use 'Cargo run' to run the backend directly
 - Use 'Cargo build' to build it for usage after
 
-That's it, it just works :)  
+That's it, it just works :)
+
+### HTTPS
+
+The recommended way to integrate HTTPS into the backend is a reverse proxy (hence the port 6464)  
+Altough we are considering adding let's encrypt support directly in the backend  
+This is something for the future tho
+
+For help with setting up a reverse proxy like Nginx,  
+refer to the [its wiki](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
 
 ### NOTE!
 
