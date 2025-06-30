@@ -104,6 +104,7 @@ async fn main() {
     println!("-----------------------------------------------------");
 
     // Set up the static file server
+    // Here you can change the path to your static files (eg. ("..") --> ("your/dir/") & ("../index.html") --> ("your/dir/index.html"))
     let static_service = ServeDir::new("..").not_found_service(ServeFile::new("../index.html"));
 
     // Create Axum router w/ static file service & logging middleware

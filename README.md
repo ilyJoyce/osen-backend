@@ -17,7 +17,7 @@ date, time, user IP, device OS and User-Agent (eg. Browser).
 
 That's it, it just works :)
 
-### HTTPS
+## HTTPS
 
 The recommended way to integrate HTTPS into the backend is a reverse proxy (hence the port 6464)  
 Altough we are considering adding let's encrypt support directly in the backend  
@@ -28,8 +28,9 @@ refer to the [its wiki](https://docs.nginx.com/nginx/admin-guide/web-server/reve
 
 ### NOTE!
 
-You need to have to move this backends folder into the index directory of your own webpage,  
-otherwise it obviously won't work. The web-server is hosted on port: 6464, this can be changed in the main.rs,  
+You need to move this backends folder into the index directory of your own webpage,  
+or edit the code to use your own path,  
+otherwise it obviously won't work. The web-server is hosted on port: 6464, this can be changed in the main.rs  
 or by using the --port {port} argument:  
   
 `cargo run -- --port {port}` or `./path/to/binary/osen-backend --port {port}`  
