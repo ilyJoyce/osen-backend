@@ -1,13 +1,13 @@
 use axum::{
-    Router, 
-    extract::ConnectInfo, 
-    http::Request, 
-    body::Body, 
-    middleware::Next, 
-    response::Response, 
+    Router,
+    extract::ConnectInfo,
+    http::Request,
+    body::Body,
+    middleware::Next,
+    response::Response,
     middleware,
 };
-use tower_http::services::{ServeDir, ServeFile};
+use tower_http::services::{ ServeDir, ServeFile };
 use std::net::SocketAddr;
 use tokio;
 use std::fs::OpenOptions;
@@ -19,7 +19,7 @@ use chrono::Local;
 async fn log_middleware(
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
     req: Request<Body>,
-    next: Next,
+    next: Next
 ) -> Response {
     let path = req.uri().path().to_string();
     let ip = addr.ip().to_string();
@@ -50,22 +50,26 @@ async fn log_middleware(
     println!("-----------------------------------------------------");
     println!(
         "[{}] Datei: \"{}\" an IP: \"{}\" gesendet. Gerät: \"{}\" (User-Agent: \"{}\")",
-        datetime, path, ip, device_type, user_agent
+        datetime,
+        path,
+        ip,
+        device_type,
+        user_agent
     );
     println!("-----------------------------------------------------");
 
     let log_line = format!(
         "[{}] || \"{}\" --> \"{}\" || Device: \"{}\" || User-Agent: \"{}\"\n",
-        datetime, path, ip, device_type, user_agent
+        datetime,
+        path,
+        ip,
+        device_type,
+        user_agent
     );
     let safe_ip = ip.replace(':', "_");
     let filename = format!("{}.log", safe_ip);
 
-    let mut file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(filename)
-        .unwrap();
+    let mut file = OpenOptions::new().create(true).append(true).open(filename).unwrap();
     file.write_all(log_line.as_bytes()).unwrap();
 
     next.run(req).await
@@ -77,8 +81,7 @@ async fn main() {
     println!("Server wird gestartet - tokio::main");
     println!("-----------------------------------------------------");
 
-    let static_service = ServeDir::new("..")
-        .not_found_service(ServeFile::new("../index.html"));
+    let static_service = ServeDir::new("..").not_found_service(ServeFile::new("../index.html"));
 
     let app = Router::new()
         .fallback_service(static_service)
@@ -111,10 +114,5 @@ async fn main() {
     println!("-----------------------------------------------------");
 
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
-    axum::serve(
-        listener,
-        app.into_make_service_with_connect_info::<SocketAddr>(),
-    )
-    .await
-    .unwrap();
+    axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await.unwrap();
 }
