@@ -10,7 +10,7 @@ use axum::{
 use tower_http::services::{ ServeDir, ServeFile };
 use std::net::SocketAddr;
 use tokio;
-use std::fs::OpenOptions;
+use std::fs::{OpenOptions, create_dir_all};
 use std::io::Write;
 use axum::http::header::USER_AGENT;
 use std::env;
@@ -66,10 +66,17 @@ async fn log_middleware(
         device_type,
         user_agent
     );
-    let safe_ip = ip.replace(':', "_");
-    let filename = format!("{}.log", safe_ip);
+    let log_dir = "log";
+    create_dir_all(log_dir).unwrap();
 
-    let mut file = OpenOptions::new().create(true).append(true).open(filename).unwrap();
+    let safe_ip = ip.replace(':', "_");
+    let filename = format!("{}/{}.log", log_dir, safe_ip);
+
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(filename)
+        .unwrap();
     file.write_all(log_line.as_bytes()).unwrap();
 
     next.run(req).await
