@@ -12,8 +12,8 @@ date, time, user IP, device OS and User-Agent (eg. Browser).
 ## Running yourself
 
 - Move into directory
-- Use 'Cargo run' to run the backend directly
-- Use 'Cargo build' to build it for usage after
+- Use `Cargo run` to run the backend directly
+- Use `Cargo build` to build it for usage after (move the binary after or prepare the code accordingly)
 
 That's it, it just works :)
 
