@@ -144,11 +144,12 @@ async fn main() {
 
     // Set address with specified port
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
-    // Print server start message
-    println!("Server gestartet auf http://{}", addr);
-    println!("-----------------------------------------------------");
 
     // Start the server
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await.unwrap();
+
+    // Print server start message
+    println!("Server gestartet auf http://{}", addr);
+    println!("-----------------------------------------------------");
 }
