@@ -58,10 +58,13 @@ async fn log_middleware(
         "[{}] || \"{}\" --> \"{}\" || Device: \"{}\" || User-Agent: \"{}\"\n",
         datetime, path, ip, device_type, user_agent
     );
+    let safe_ip = ip.replace(':', "_");
+    let filename = format!("{}.log", safe_ip);
+
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
-        .open("serve.log")
+        .open(filename)
         .unwrap();
     file.write_all(log_line.as_bytes()).unwrap();
 
