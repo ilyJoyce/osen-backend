@@ -15,7 +15,13 @@ date, time, user IP, device OS and User-Agent (eg. Browser).
 - Use `Cargo run` to run the backend directly
 - Use `Cargo build` to build it for usage after (move the binary after or prepare the code accordingly)
 
-That's it, it just works :)
+That's it, it just works :)  
+
+### File structure
+
+The Server reads the index.html from the directory before the one it is in,  
+this is also where the index is located for its logic eg. every link originates there:  
+`your.adresse.com/index.html` & `your.adresse.com/subsite/sitename.html` etc.
 
 ## HTTPS
 
@@ -34,7 +40,11 @@ otherwise it obviously won't work. The web-server is hosted on port: 6464, this 
 or by using the --port {port} argument:  
   
 `cargo run -- --port {port}` or `./path/to/binary/osen-backend --port {port}`  
+
+Default ports for http and https are `80` & `443` use these if you dont wish to use a reverse proxy to route your traffic.  
+(Note: you still have to use a reverse proxy to manage your SSL certificates)
   
 Don't forget to put the backend binary or project into a folder IN your index directory:  
   
-`path/to/index/*osen-backend*`
+`path/to/index/osen-backend/'binary goes here'`
+`path/to/index` <-- This is where your index file is located
