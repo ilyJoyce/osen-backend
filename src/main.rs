@@ -121,11 +121,17 @@ async fn main() {
     // Check for --port argument
     let args: Vec<String> = env::args().collect();
     let mut i = 1;
+    // Iterate through arguments to find --port
     while i < args.len() {
+        // If --port is found, parse the next argument as port
         if args[i] == "--port" {
+            // Check if there is a next argument
             if i + 1 < args.len() {
+                // Try to parse the next argument as u16
                 if let Ok(p) = args[i + 1].parse::<u16>() {
+                    // If successful, set the port
                     port = p;
+                // If parsing fails, print error and exit
                 } else {
                     eprintln!("Ungültiger Port: {}", args[i + 1]);
                     std::process::exit(1);
