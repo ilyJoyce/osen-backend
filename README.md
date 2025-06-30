@@ -19,7 +19,7 @@ That's it, it just works :)
 
 ### File structure
 
-The Server reads the index.html from the directory before the one it is in,  
+The Server reads the `index.html` from the directory before the one it is in `(..)`,  
 this is also where the index is located for its logic eg. every link originates there:  
 `your.adresse.com/index.html` & `your.adresse.com/subsite/sitename.html` etc.
 
